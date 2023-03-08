@@ -18,6 +18,11 @@ import (
 	"github.com/smartcontractkit/libocr/internal/loghelper"
 )
 
+const (
+	minDelay   = 1000
+	delayRange = 5000
+)
+
 var (
 	_ commontypes.BinaryNetworkEndpoint = &ocrEndpointV2{}
 )
@@ -288,11 +293,13 @@ func (o *ocrEndpointV2) SendTo(payload []byte, to commontypes.OracleID) {
 	}
 
 	if to == o.ownOracleID {
+		o.logger.Info("Send to self", commontypes.LogFields{})
+
 		o.sendToSelf(payload)
 		return
 	}
 
-	delay := rand.Intn(500)
+	delay := rand.Intn(delayRange) + minDelay
 	o.logger.Info("Sleeping before send", commontypes.LogFields{"delay ms": delay})
 	time.Sleep(time.Duration(delay) * time.Millisecond)
 

@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/ed25519"
 	"fmt"
-	"math/rand"
 	"sync"
 	"time"
 
@@ -230,9 +229,6 @@ func (r *Ragep2pDiscoverer) writeLoop() {
 				r.logger.Warn("Failed to convert message to bytes", commontypes.LogFields{"message": m.payload})
 				break
 			}
-			delay := rand.Intn(500)
-			r.logger.Info("writeLoop sleeping before send", commontypes.LogFields{"delay ms": delay})
-			time.Sleep(time.Duration(delay) * time.Millisecond)
 			s.SendMessage(bs)
 		case <-r.ctx.Done():
 			return
