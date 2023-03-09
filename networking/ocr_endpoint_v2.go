@@ -19,8 +19,8 @@ import (
 )
 
 const (
-	minDelay   = 1000
-	delayRange = 5000
+	minDelay   = 6000
+	delayRange = 1000
 )
 
 var (
