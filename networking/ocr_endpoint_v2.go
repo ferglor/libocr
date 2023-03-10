@@ -20,7 +20,7 @@ import (
 
 const (
 	minDelay   = 200
-	delayRange = 0
+	delayRange = 10
 )
 
 var (
