@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	minDelay   = 200
+	minDelay   = 500
 	delayRange = 10
 )
 
