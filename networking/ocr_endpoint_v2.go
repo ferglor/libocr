@@ -3,7 +3,6 @@ package networking
 import (
 	"fmt"
 	"io"
-	"math/rand"
 	"sync"
 	"time"
 
@@ -19,8 +18,7 @@ import (
 )
 
 const (
-	minDelay   = 500
-	delayRange = 10
+	minDelay   = 4000
 )
 
 var (
@@ -299,7 +297,7 @@ func (o *ocrEndpointV2) SendTo(payload []byte, to commontypes.OracleID) {
 		return
 	}
 
-	delay := rand.Intn(delayRange) + minDelay
+	delay := minDelay
 	o.logger.Info("Sleeping before send", commontypes.LogFields{"delay ms": delay})
 	time.Sleep(time.Duration(delay) * time.Millisecond)
 
