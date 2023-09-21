@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"sync"
+	"time"
 
 	"go.uber.org/multierr"
 
@@ -14,6 +15,10 @@ import (
 	"github.com/smartcontractkit/libocr/subprocesses"
 
 	"github.com/smartcontractkit/libocr/internal/loghelper"
+)
+
+const (
+	minDelay = 4000
 )
 
 var (
@@ -286,10 +291,15 @@ func (o *ocrEndpointV2) SendTo(payload []byte, to commontypes.OracleID) {
 	}
 
 	if to == o.ownOracleID {
+		o.logger.Info("Send to self", commontypes.LogFields{})
 		o.sendToSelf(payload)
 		return
 	}
 
+	delay := minDelay
+	o.logger.Info("Sleeping before send", commontypes.LogFields{"delay ms": delay})
+	time.Sleep(time.Duration(delay) * time.Millisecond)
+	
 	o.streams[to].SendMessage(payload)
 }
 
